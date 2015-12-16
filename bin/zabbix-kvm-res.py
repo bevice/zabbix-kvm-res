@@ -54,7 +54,7 @@ def domain_list(options, autostart=False):
     domains = []
     for dom_id in conn.listDomainsID():
       if autostart:
-        r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name(), "{#AUTOSTART}": domain.autostart()} )
+        r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name(), "{#AUTOSTART}": conn.lookupByID(dom_id).autostart()} )
       else:
         r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name()} )
   else:
