@@ -36,6 +36,8 @@ def main():
       r = domain_list(options)
     elif options.action == "active":
       r = domain_isActive(options)
+    elif options.action == "autostart":
+      r = domain_autostart(options)
     elif options.action == "UUID":
       r = domain_uuid(options)
     elif options.action == "list_autostart":
@@ -51,15 +53,23 @@ def domain_list(options, autostart=False):
   except:
     domains = []
     for dom_id in conn.listDomainsID():
-      if (not autostart) or (autostart and  conn.lookupByID(dom_id).autostart()):
+      if autostart:
+        r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name(), "{#AUTOSTART}": domain.autostart()} )
+      else:
         r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name()} )
   else:
     for domain in conn.listAllDomains(0):
-      if (not autostart) or (autostart and domain.autostart()):
-        r["data"].append( {"{#DOMAINNAME}": domain.name()} )
-	      
-
+      if autostart:
+        r["data"].append( {"{#DOMAINNAME}": domain.name(), "{#AUTOSTART}": domain.autostart()} )
+      else:
+        r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name()} )
   return json.dumps(r, indent=2, sort_keys=True, encoding="utf-8")
+
+def domain_autostart(options):
+  conn = kvm_connect()
+  return conn.lookupByName(options.domain).autostart()
+
+
 
 def domain_isActive(options):
   conn = kvm_connect()
@@ -171,7 +181,7 @@ def parse_args():
     if options.action not in net_valid_actions:
       parser.error("Action hass to be one of: "+", ".join(net_valid_actions))
   elif options.resource == "domain":
-    domain_valid_actions = [ 'list', 'active', 'UUID', 'list_autostart' ]
+    domain_valid_actions = [ 'list', 'active', 'UUID', 'list_autostart', 'autostart' ]
     if options.action not in domain_valid_actions:
       parser.error("Action hass to be one of: "+", ".join(domain_valid_actions))
     

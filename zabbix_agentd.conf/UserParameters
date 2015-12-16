@@ -6,6 +6,9 @@ UserParameter=custom.kvm.net.discover,/usr/local/bin/zabbix-kvm-res.py --resourc
 UserParameter=custom.kvm.net.active[*],/usr/local/bin/zabbix-kvm-res.py --resource net --action active --net $1
 UserParameter=custom.kvm.net.uuid[*],/usr/local/bin/zabbix-kvm-res.py --resource net --action UUID --net $1
 UserParameter=custom.kvm.domain.discover,/usr/local/bin/zabbix-kvm-res.py --resource domain --action list
+UserParameter=custom.kvm.domain.autostart.discover,/usr/local/bin/zabbix-kvm-res.py --resource domain --action list_autostart
 UserParameter=custom.kvm.domain.active[*],/usr/local/bin/zabbix-kvm-res.py --resource domain --action active --domain $1
 UserParameter=custom.kvm.domain.uuid[*],/usr/local/bin/zabbix-kvm-res.py --resource domain --action UUID --domain $1
+UserParameter=custom.kvm.domain.autostart[*],/usr/local/bin/zabbix-kvm-res.py --resource domain --action autostart --domain $1
+
 
