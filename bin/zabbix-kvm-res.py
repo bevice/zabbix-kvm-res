@@ -62,7 +62,7 @@ def domain_list(options, autostart=False):
       if autostart:
         r["data"].append( {"{#DOMAINNAME}": domain.name(), "{#AUTOSTART}": domain.autostart()} )
       else:
-        r['data'].append( {"{#DOMAINNAME}": conn.lookupByID(dom_id).name()} )
+        r['data'].append( {"{#DOMAINNAME}": domain.name()} )
   return json.dumps(r, indent=2, sort_keys=True, encoding="utf-8")
 
 def domain_autostart(options):
